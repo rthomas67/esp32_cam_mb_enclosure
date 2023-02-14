@@ -4,12 +4,7 @@
  Price: including tax and Colorado's illegal "delivery fee", about $8 each
  */ 
 
-boxFrontPanelThickness=2.25;
-boxSideWallThickness=1.5;
-
-boxInnerHeight=41;
-boxInnerWidth=28;
-boxInnerDepth=21;
+include <esp32_cam_mb_enclosure_common.scad>
 
 sdSlotDepth=3;
 sdSlotWidth=15;
@@ -34,16 +29,9 @@ ledHoleBottomPosition=8.4;  // relative to boxInnerHeight bottom
 ledHoleSideInsetPosition=0; // relative to boxInnerWidth on closest side.
 
 usbAccessHoleDepth=8;  // relative to boxInnerDepth from rear
-usbAccessHoleWidth=11;  // centered relative to boxInnerWidth
-
-mountClipSlotHeight=15.5;  // positioned relative to boxInnerHeight
-mountClipSlotDepth=2; // positioned relative to boxInnerDepth
-mountClipSlotHeightPosition=17;  // bottom of the slot
-mountClipSlotInsetFromBack=7; // rearmost edge
 
 // this is on the same side as the LED (right when facing front of box)
 resetButtonAccessHoleDepth=5;
-resetButtonAccessHoleHeight=6;
 resetButtonAccessHoleFlareDepth=resetButtonAccessHoleDepth+boxSideWallThickness*2;
 resetButtonAccessHoleFlareHeight=resetButtonAccessHoleHeight+boxSideWallThickness*2;
 
@@ -60,9 +48,6 @@ overlap=0.01;
 $fn=50;
 
 // calculated
-boxOuterWidth=boxInnerWidth+boxSideWallThickness*2;
-boxOuterHeight=boxInnerHeight+boxSideWallThickness*2;
-boxOuterDepth=boxInnerDepth+boxFrontPanelThickness;
 
 union() {
     boxWithCutouts();
