@@ -2,29 +2,31 @@
 
 include <esp32_cam_mb_enclosure_common.scad>
 
-overlap=0.01;
-$fn=50;
+backPlateSupportDepth=1.5;
 
 usbBackPlateFillDepth=1;
 usbBackPlateFillTolerance=0.05;
 
-resetBackPlateFillDepth=1;
-
-backPlateSupportDepth=1.5;
+resetBackPlateFillDepth=backPlateSupportDepth + 0.8;
+resetBackPlateFillWidth=boxSideWallThickness*2; // circuit board corner is recessed a bit
 
 backPlateTopSupportHeight=2;
 
 backPlateBottomSupportHeight=7.5;
 backPlateBottomSupportInsetFromBottom=8;
 
+overlap=0.01;
+$fn=50;
+
 union() {
     cube([boxOuterWidth,boxOuterHeight,backPlateWallThickness]);
     
     translate([(boxOuterWidth/2-usbAccessHoleWidth/2)+usbBackPlateFillTolerance,0,backPlateWallThickness-overlap])
         cube([usbAccessHoleWidth-usbBackPlateFillTolerance*2,boxSideWallThickness,usbBackPlateFillDepth+overlap]);
-        
-    translate([boxSideWallThickness+boxInnerWidth,boxSideWallThickness,backPlateWallThickness-overlap])
-        cube([boxSideWallThickness,resetButtonAccessHoleHeight,resetBackPlateFillDepth+overlap]);
+
+    // reset button fill-in block        
+    translate([boxOuterWidth-resetBackPlateFillWidth,boxSideWallThickness,backPlateWallThickness-overlap])
+        cube([resetBackPlateFillWidth,resetButtonAccessHoleHeight,resetBackPlateFillDepth+overlap]);
 
     // top support
     translate([boxSideWallThickness,boxSideWallThickness+boxInnerHeight-backPlateTopSupportHeight,backPlateWallThickness-overlap])

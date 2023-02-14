@@ -7,19 +7,31 @@ mountClipHingeInnerDia=3.8;
 
 mountClipWallThickness=2;
 mountClipSlotInsertDepth=boxSideWallThickness-0.1;  // how deep into the slot the clip goes
-mountClipSlotInsertTolerance=0;  // how much to shave off the insert for fit.
+
+mountClipInsertThicknessTolerance=0.05;  // how much to shave off the insert thickness for fit.
+mountClipInsertThickness=mountClipSlotDepth-mountClipInsertThicknessTolerance*2;
 
 mountClipOuterWidth=boxOuterWidth+mountClipWallThickness*2;
+
+// This accounts for slight variations in sliced model for 3d printer to line things
+// up when the printed part is slightly off because of rounding to position lines
+insertInsetFromBackAdjust=0.1;
 
 overlap=0.01;
 $fn=50;
 
 // calculated
-slotInsertHeight=mountClipSlotHeight-mountClipSlotInsertTolerance*2;
-slotInsertDepth=mountClipSlotInsertDepth-mountClipSlotInsertTolerance*2;
-// accommodates backplate thickness too
-mountClipOuterDepth=mountClipWallThickness+mountClipSlotInsetFromBack+slotInsertDepth
-    +mountClipSlotInsertTolerance+backPlateWallThickness;
+
+// This makes the entire clip slightly shorter so it will fit top to bottom
+slotInsertHeight=mountClipSlotHeight-mountClipInsertThicknessTolerance*2;
+
+// accommodates backplate thickness and slot insert thickness with inner tolerance amount only
+mountClipOuterDepth=mountClipWallThickness + backPlateWallThickness + mountClipSlotInsetFromBack
+        + mountClipInsertThicknessTolerance + mountClipSlotInsertDepth + insertInsetFromBackAdjust;
+
+innerBoxDepth=backPlateWallThickness + mountClipSlotInsetFromBack
+        + mountClipInsertThicknessTolerance + insertInsetFromBackAdjust;
+//backPlateWallThickness+mountClipSlotInsetFromBack        
 
 hingeClip();
 // check symmetry
@@ -27,6 +39,8 @@ hingeClip();
     mirror([1,0,0])
         color([1,0,0])
             hingeClip();
+// compare w/ prev
+* color([1,0,0]) import("esp32_cam_mb_enclosure_clip_mount_proto01.stl", convexity=3);            
 module hingeClip() {
     union() {
         // hinge part
@@ -47,12 +61,12 @@ module hingeClip() {
                 cube([mountClipOuterWidth,mountClipOuterDepth,slotInsertHeight]);
                 // cutout wide part (that goes around the box)
                 translate([mountClipWallThickness,mountClipWallThickness,-overlap])
-                    cube([boxOuterWidth,backPlateWallThickness+mountClipSlotInsetFromBack,slotInsertHeight+overlap*2]);
+                    cube([boxOuterWidth,innerBoxDepth,slotInsertHeight+overlap*2]);
                 // cutout the narrow part (between the inserts)    
                 translate([mountClipWallThickness+mountClipSlotInsertDepth,
-                        mountClipWallThickness+backPlateWallThickness+mountClipSlotInsetFromBack-overlap,
+                        mountClipOuterDepth-mountClipInsertThickness-overlap,
                         -overlap])
-                    cube([boxOuterWidth-mountClipSlotInsertDepth*2,mountClipSlotDepth+overlap*2,slotInsertHeight+overlap*2]);
+                     cube([boxOuterWidth-mountClipSlotInsertDepth*2,mountClipInsertThickness+overlap*2,slotInsertHeight+overlap*2]);
             }
     }
 }
