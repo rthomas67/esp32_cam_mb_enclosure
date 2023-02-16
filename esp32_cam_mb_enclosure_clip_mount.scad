@@ -15,7 +15,10 @@ mountClipOuterWidth=boxOuterWidth+mountClipWallThickness*2;
 
 // This accounts for slight variations in sliced model for 3d printer to line things
 // up when the printed part is slightly off because of rounding to position lines
-insertInsetFromBackAdjust=0.25;
+insertInsetFromBackAdjust=0.3;
+
+// how much extra room to leave on either side of the box, inside the sides of the clip
+mountClipSideTolerance=0.1;
 
 overlap=0.01;
 $fn=50;
@@ -56,12 +59,13 @@ module hingeClip() {
             translate([0,-mountClipHingeOuterDia/2,-overlap])
                 cylinder(d=mountClipHingeInnerDia, h=slotInsertHeight+overlap*2);
         }
+        // clip part
         translate([-mountClipOuterWidth/2,0,0]) // center on y-axis
             difference() {
                 cube([mountClipOuterWidth,mountClipOuterDepth,slotInsertHeight]);
                 // cutout wide part (that goes around the box)
-                translate([mountClipWallThickness,mountClipWallThickness,-overlap])
-                    cube([boxOuterWidth,innerBoxDepth,slotInsertHeight+overlap*2]);
+                translate([mountClipWallThickness-mountClipSideTolerance,mountClipWallThickness,-overlap])
+                    cube([boxOuterWidth+mountClipSideTolerance*2,innerBoxDepth,slotInsertHeight+overlap*2]);
                 // cutout the narrow part (between the inserts)    
                 translate([mountClipWallThickness+mountClipSlotInsertDepth,
                         mountClipOuterDepth-mountClipInsertThickness-overlap,

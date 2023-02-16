@@ -18,9 +18,9 @@ backPlateBottomSupportInsetFromBottom=8;
 // Birdhouse-roof style hood, extending in front of the box, and to each side.
 // Adjust dimensions after testing camera lens field-of-view interference
 hoodAngle=25; // from horizontal on each side - double this for the apex angle
-hoodOverhangCenter=20;
+hoodOverhangCenter=30;
 hoodOverhangSides=hoodOverhangCenter/2;
-hoodPanelWidth=boxOuterWidth/2*1.5;  // TODO: calculate to account for actual slope angle
+hoodPanelWidth=boxOuterWidth/2*1.75;  // TODO: calculate to account for actual slope angle
 hoodPanelThickness=2;
 
 overlap=0.01;
