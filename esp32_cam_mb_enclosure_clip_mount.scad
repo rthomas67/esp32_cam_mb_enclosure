@@ -15,7 +15,7 @@ mountClipOuterWidth=boxOuterWidth+mountClipWallThickness*2;
 
 // This accounts for slight variations in sliced model for 3d printer to line things
 // up when the printed part is slightly off because of rounding to position lines
-insertInsetFromBackAdjust=0.1;
+insertInsetFromBackAdjust=0.25;
 
 overlap=0.01;
 $fn=50;
