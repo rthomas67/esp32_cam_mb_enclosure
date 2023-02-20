@@ -10,14 +10,6 @@ tripodHoleInnerDia=8;
 tripodHoleWallThickness=3;
 tripodHoleOuterDia=tripodHoleInnerDia+tripodHoleWallThickness*2;
 
-/*
- * The inner dia of the mount-clip hinge is 3.8, so...
- * Asked https://www.perplexity.ai : "what is the outer diameter of an m4 nut"
- * and it pulled info from boltdepot's web site to yield the answer 7.2mm.
- * The value here has a bit of margin to avoid fitting too tightly.
- */
-nutCountersinkDia=7.4;
-
 antiRotationPinRadius=13.5; // from center of tripod mount - per online ref and measured from manfroto plate
 antiRotationPinHoleDia=5; // measured from manfroto plate
 
@@ -44,7 +36,7 @@ difference() {
         cylinder(d=mountClipHingeInnerDia, h=adapterThickness+overlap*2);
     // hinge threaded-rod hex-nut-countersink
     translate([0,0,adapterThickness*2/3+overlap])
-        cylinder(d=nutCountersinkDia, h=adapterThickness/3+overlap, $fn=6);
+        cylinder(d=m4NutCountersinkDia, h=adapterThickness/3+overlap, $fn=6);
 
     // tripod 1/4"-20 threaded insert hole
     translate([0,tripodHoleInset,-overlap])

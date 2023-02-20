@@ -42,6 +42,11 @@ topCornerSupportDepth=5.1;
 bottomSupportHeight=5;
 bottomSupportDepth=topCornerSupportDepth;
 
+antennaWireSlotWidth=2;
+// Note: This could be calculated from the support depth and circuit board thickness.
+antennaWireSlotDepth=15;  // from back to back-side of esp32 board
+// Note: Adjust this until it slightly overlaps the side of the USB slot
+antennaWireSlotInset=19.2; // from inner side of box to nearest edge of slot
 
 overlap=0.01;
 
@@ -100,7 +105,9 @@ module boxWithCutouts() {
                     translate([boxSideWallThickness+overlap,-boxSideWallThickness,-boxSideWallThickness])
                         cube([overlap,resetButtonAccessHoleFlareHeight,resetButtonAccessHoleFlareDepth]);
                 }
-
+            // Antenna wire slot cutout    
+            translate([antennaWireSlotInset,-boxSideWallThickness-overlap,-overlap])
+                cube([antennaWireSlotWidth,boxSideWallThickness+overlap*2,antennaWireSlotDepth+overlap]);
         }
     }
 

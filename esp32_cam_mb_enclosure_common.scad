@@ -27,3 +27,10 @@ resetButtonAccessHoleHeight=6;
 mountClipHingeOuterDia=10;
 mountClipHingeInnerDia=3.8;
 
+/*
+ * The inner dia of the mount-clip hinge is 3.8, so...
+ * Asked https://www.perplexity.ai : "what is the outer diameter of an m4 nut"
+ * and it pulled info from boltdepot's web site to yield the answer 7.2mm.
+ * The value here has a bit of margin to avoid fitting too tightly.
+ */
+m4NutCountersinkDia=7.4;

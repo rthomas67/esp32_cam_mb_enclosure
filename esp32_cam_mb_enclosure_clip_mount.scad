@@ -17,6 +17,13 @@ insertInsetFromBackAdjust=0.3;
 // how much extra room to leave on either side of the box, inside the sides of the clip
 mountClipSideTolerance=0.1;
 
+antennaMountPlateThickness=2.2;
+antennaMountHoleDia=6.5;
+antennaMountPlateOuterDia=13;
+antennaMountPlateHingeOverlap=0.5;
+antennaCountersinkDepth=6;
+antennaCountersinkHexDia=9.2;
+
 overlap=0.01;
 $fn=50;
 
@@ -55,11 +62,32 @@ module hingeClip() {
             // hinge hole
             translate([0,-mountClipHingeOuterDia/2,-overlap])
                 cylinder(d=mountClipHingeInnerDia, h=slotInsertHeight+overlap*2);
+            // nut countersink
+            translate([0,-mountClipHingeOuterDia/2,slotInsertHeight*4/5])
+                cylinder(d=m4NutCountersinkDia, h=slotInsertHeight/5+overlap, $fn=6);
         }
         // clip part
+        removalTabDepth=mountClipWallThickness*2/3;
+        removalTabTipWidth=mountClipWallThickness/3;
         translate([-mountClipOuterWidth/2,0,0]) // center on y-axis
             difference() {
-                cube([mountClipOuterWidth,mountClipOuterDepth,slotInsertHeight]);
+                union() {
+                    cube([mountClipOuterWidth,mountClipOuterDepth,slotInsertHeight]);
+                    // removal tab left
+                    translate([0,mountClipOuterDepth-overlap,0])
+                    hull() {
+                        cube([mountClipWallThickness,overlap,slotInsertHeight]);
+                        translate([0,removalTabDepth-overlap,0])
+                            cube([removalTabTipWidth,overlap,slotInsertHeight]);
+                    }
+                    // removal tab right
+                    translate([mountClipWallThickness+boxOuterWidth,mountClipOuterDepth-overlap,0])
+                    hull() {
+                        cube([mountClipWallThickness,overlap,slotInsertHeight]);
+                        translate([mountClipWallThickness-removalTabTipWidth,removalTabDepth-overlap,0])
+                            cube([removalTabTipWidth,overlap,slotInsertHeight]);
+                    }
+                }
                 // cutout wide part (that goes around the box)
                 translate([mountClipWallThickness-mountClipSideTolerance,mountClipWallThickness,-overlap])
                     cube([boxOuterWidth+mountClipSideTolerance*2,innerBoxDepth,slotInsertHeight+overlap*2]);
@@ -69,5 +97,23 @@ module hingeClip() {
                         -overlap])
                      cube([boxOuterWidth-mountClipSlotInsertDepth*2,mountClipInsertThickness+overlap*2,slotInsertHeight+overlap*2]);
             }
+        // antenna mount plate part
+        translate([mountClipHingeOuterDia/2+antennaMountPlateOuterDia/2-antennaMountPlateHingeOverlap,0,0])
+            difference() {
+                hull() {
+                    translate([0,-antennaMountPlateOuterDia/2,0])
+                        cylinder(d=antennaMountPlateOuterDia, h=antennaMountPlateThickness+antennaCountersinkDepth);
+
+                    translate([-antennaMountPlateOuterDia/2,0,0])
+                        cube([antennaMountPlateOuterDia,overlap,antennaMountPlateThickness+antennaCountersinkDepth]);
+                }
+                // antenna connector hole
+                translate([0,-antennaMountPlateOuterDia/2,-overlap])
+                    cylinder(d=antennaMountHoleDia, h=antennaMountPlateThickness+overlap*2);
+                // antenna connector countersink
+                translate([0,-antennaMountPlateOuterDia/2,antennaMountPlateThickness-overlap])
+                    cylinder(d=antennaCountersinkHexDia, h=antennaCountersinkDepth+overlap*2, $fn=6);
+            }
+               
     }
 }
