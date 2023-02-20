@@ -23,3 +23,7 @@ boxOuterDepth=boxInnerDepth+boxFrontPanelThickness;
 usbAccessHoleWidth=11;  // centered relative to boxInnerWidth
 
 resetButtonAccessHoleHeight=6;
+
+mountClipHingeOuterDia=10;
+mountClipHingeInnerDia=3.8;
+

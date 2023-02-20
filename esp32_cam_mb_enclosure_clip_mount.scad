@@ -2,9 +2,6 @@
 
 include <esp32_cam_mb_enclosure_common.scad>
 
-mountClipHingeOuterDia=10;
-mountClipHingeInnerDia=3.8;
-
 mountClipWallThickness=2;
 mountClipSlotInsertDepth=boxSideWallThickness-0.1;  // how deep into the slot the clip goes
 
