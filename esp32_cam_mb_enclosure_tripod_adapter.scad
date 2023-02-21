@@ -5,8 +5,12 @@ include <esp32_cam_mb_enclosure_common.scad>
 
 adapterThickness=9;  // minimum that will accomodate a nutsert for 1/4 x 20
 
-// brass threaded insert 1/4-20 outer dia is 9mm, so this needs to be slightly smaller
-tripodHoleInnerDia=8;
+/*
+ * brass threaded insert 1/4-20 outer dia is 9mm at the narrow part, 
+ * and 9.5mm on the knurled parts, so this needs to be approximately
+ * the same size as the narrow part to make a melt-insertion work best.
+ */
+tripodHoleInnerDia=8.9;
 tripodHoleWallThickness=3;
 tripodHoleOuterDia=tripodHoleInnerDia+tripodHoleWallThickness*2;
 

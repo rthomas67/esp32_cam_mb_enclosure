@@ -22,6 +22,7 @@ hoodOverhangCenter=30;
 hoodOverhangSides=hoodOverhangCenter/2;
 hoodPanelWidth=boxOuterWidth/2*1.75;  // TODO: calculate to account for actual slope angle
 hoodPanelThickness=2;
+hoodPanelFrontFlatWidth=10;
 
 overlap=0.01;
 $fn=50;
@@ -115,9 +116,14 @@ module hood() {
 
 // Modeled for right, mirror for left
 module hoodRoofPanel() {
+    /*
+     * Note: 2nd point at front edge of center ridge makes the crossover flat instead of having 
+     * a messy overlap where the corners stick out.
+     */
     linear_extrude(height = hoodPanelThickness) {
-        polygon(points=[[0,0],[0,hoodCenterLength],[hoodPanelWidth,hoodSideLength],[hoodPanelWidth,0]], 
-            paths=[[0,1,2,3,0]]);
+        polygon(points=[[0,0],[0,hoodCenterLength],[hoodPanelFrontFlatWidth/2,hoodCenterLength],
+                [hoodPanelWidth,hoodSideLength],[hoodPanelWidth,0]], 
+            paths=[[0,1,2,3,4,0]]);
     }
 
 }
