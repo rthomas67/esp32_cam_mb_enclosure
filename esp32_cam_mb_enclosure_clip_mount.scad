@@ -22,7 +22,12 @@ antennaMountHoleDia=6.5;
 antennaMountPlateOuterDia=13;
 antennaMountPlateHingeOverlap=0.5;
 antennaCountersinkDepth=6;
-antennaCountersinkHexDia=9.2;
+// measured 9.1.  9.2 didn't print big enough
+antennaCountersinkHexDia=9.5;
+
+antennaWireHolderOuterDia=7;
+antennaWireHolderInnerDia=4;
+antennaWireHolderThickness=2.5;
 
 overlap=0.01;
 $fn=50;
@@ -36,7 +41,7 @@ slotInsertHeight=mountClipSlotHeight-mountClipInsertThicknessTolerance*2;
 mountClipOuterDepth=mountClipWallThickness + backPlateWallThickness + mountClipSlotInsetFromBack
         + mountClipInsertThicknessTolerance + mountClipSlotInsertDepth + insertInsetFromBackAdjust;
 
-innerBoxDepth=backPlateWallThickness + mountClipSlotInsetFromBack
+mountClipInnerCutoutDepth=backPlateWallThickness + mountClipSlotInsetFromBack
         + mountClipInsertThicknessTolerance + insertInsetFromBackAdjust;
 //backPlateWallThickness+mountClipSlotInsetFromBack        
 
@@ -90,7 +95,7 @@ module hingeClip() {
                 }
                 // cutout wide part (that goes around the box)
                 translate([mountClipWallThickness-mountClipSideTolerance,mountClipWallThickness,-overlap])
-                    cube([boxOuterWidth+mountClipSideTolerance*2,innerBoxDepth,slotInsertHeight+overlap*2]);
+                    cube([boxOuterWidth+mountClipSideTolerance*2,mountClipInnerCutoutDepth,slotInsertHeight+overlap*2]);
                 // cutout the narrow part (between the inserts)    
                 translate([mountClipWallThickness+mountClipSlotInsertDepth,
                         mountClipOuterDepth-mountClipInsertThickness-overlap,
@@ -113,6 +118,28 @@ module hingeClip() {
                 // antenna connector countersink
                 translate([0,-antennaMountPlateOuterDia/2,antennaMountPlateThickness-overlap])
                     cylinder(d=antennaCountersinkHexDia, h=antennaCountersinkDepth+overlap*2, $fn=6);
+            }
+        // antenna wire holder
+        antennaWireHolderWallThickness=(antennaWireHolderOuterDia-antennaWireHolderInnerDia)/2;
+        translate([-mountClipOuterWidth/2+antennaWireHolderWallThickness,
+                mountClipWallThickness+mountClipInnerCutoutDepth/2-antennaWireHolderThickness/2,
+                antennaWireHolderOuterDia/2])
+            rotate([0,90,90])
+            difference() {
+                hull() {
+                    translate([0,antennaWireHolderOuterDia/2,0])
+                        cylinder(d=antennaWireHolderOuterDia, h=antennaWireHolderThickness);
+                    // flat base
+                    translate([-antennaWireHolderOuterDia/2,0,0])
+                        cube([antennaWireHolderOuterDia,overlap,antennaWireHolderThickness]);
+                    // flat side (for printing against build plate w/o support)
+                    // Note: 4/5 of full side tapers in but not enough to require supports
+                    translate([antennaWireHolderOuterDia/2-overlap,0,0])
+                        cube([overlap,antennaWireHolderOuterDia*4/5,antennaWireHolderThickness]);
+                }
+                // antenna wire holder hole
+                translate([0,antennaWireHolderOuterDia/2,-overlap])
+                    cylinder(d=antennaWireHolderInnerDia, h=antennaWireHolderThickness+overlap*2);
             }
                
     }

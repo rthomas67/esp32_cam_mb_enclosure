@@ -33,4 +33,4 @@ mountClipHingeInnerDia=3.8;
  * and it pulled info from boltdepot's web site to yield the answer 7.2mm.
  * However, the measured nut diameter is 6mm, so adjust as needed.
  */
-m4NutCountersinkDia=6.3;
+m4NutCountersinkDia=6.4;
